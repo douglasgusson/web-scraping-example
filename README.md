@@ -1,5 +1,7 @@
 # web-scraping-example
 
+![Captura de tela com exemplo dos dados coletados](./exemplo-dados-coletados.png)
+
 To install dependencies:
 
 ```bash
