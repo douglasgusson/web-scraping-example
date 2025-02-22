@@ -1,9 +1,6 @@
 import pl from 'nodejs-polars';
 
-const extractedFile = Bun.file("./extracted-data-example.json");
-const extractedJson = await extractedFile.json();
-
-const df = pl.DataFrame(extractedJson);
+const df = pl.readJSON("./extracted-data-example.json");
 
 const authorsResult = df
   .explode("authors")
