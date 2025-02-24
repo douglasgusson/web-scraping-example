@@ -1,10 +1,10 @@
-import * as cheerio from 'cheerio';
+import * as cheerio from "cheerio";
 
 const fetchContent = async (url: string | URL) => {
   console.debug(url.toString());
   const response = await fetch(url);
   return await response.text();
-}
+};
 
 const extractItems = ($: cheerio.CheerioAPI) => {
   const { items } = $.extract({
@@ -30,7 +30,7 @@ const extractItems = ($: cheerio.CheerioAPI) => {
   });
 
   return items;
-}
+};
 
 const main = async () => {
   const url = new URL("https://repositorio.ifes.edu.br/recent-submissions");
@@ -38,7 +38,7 @@ const main = async () => {
   let offset: string | undefined;
 
   const now = new Date();
-  const filePath = `./data/extracted-${now.toJSON()}.json`
+  const filePath = `./data/extracted-${now.toJSON()}.json`;
   const file = Bun.file(filePath);
   const writer = file.writer();
 
@@ -48,7 +48,7 @@ const main = async () => {
     const content = await fetchContent(url);
     const $ = cheerio.load(content, { baseURI: url.origin });
 
-    offset = $(".next-page-link").attr("href")?.replace(/\D/g, '');
+    offset = $(".next-page-link").attr("href")?.replace(/\D/g, "");
 
     const items = extractItems($);
 
@@ -59,11 +59,10 @@ const main = async () => {
     });
 
     if (offset) url.searchParams.set("offset", offset);
-
   } while (!!offset);
 
   writer.write("]");
   writer.end();
-}
+};
 
-main()
+main();

@@ -1,4 +1,4 @@
-import pl from 'nodejs-polars';
+import pl from "nodejs-polars";
 
 const df = pl.readJSON("./extracted-data-example.json");
 
@@ -26,4 +26,4 @@ const aldoResendeArtifacts = df
 console.debug(df.head());
 console.debug(publisherResult.head(10));
 console.debug(authorsResult.head(10));
-console.debug(aldoResendeArtifacts)
+console.debug(aldoResendeArtifacts);
