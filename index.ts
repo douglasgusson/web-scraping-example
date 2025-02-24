@@ -16,7 +16,7 @@ const extractItems = ($: cheerio.CheerioAPI) => {
             selector: ".artifact-title",
             value: (el) => $(el).text().trim(),
           },
-          path: {
+          link: {
             selector: ".artifact-title > a",
             value: "href",
           },
@@ -46,14 +46,11 @@ const main = async () => {
 
   do {
     const content = await fetchContent(url);
-    const $ = cheerio.load(content);
+    const $ = cheerio.load(content, { baseURI: url.origin });
 
     offset = $(".next-page-link").attr("href")?.replace(/\D/g, '');
 
-    const items = extractItems($).map(item => ({
-      ...item,
-      link: `${url.origin}${item.path}`,
-    }));
+    const items = extractItems($);
 
     items.forEach((item, i) => {
       writer.write(JSON.stringify(item));
